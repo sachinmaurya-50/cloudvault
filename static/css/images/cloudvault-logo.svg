@@ -1,0 +1,254 @@
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 600 430"
+    width="600"
+    height="430">
+
+    <defs>
+
+        <!-- Red glow -->
+        <filter id="redGlow"
+                x="-50%"
+                y="-50%"
+                width="200%"
+                height="200%">
+
+            <feGaussianBlur
+                stdDeviation="7"
+                result="blur"/>
+
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+
+        </filter>
+
+
+        <!-- Cloud metallic gradient -->
+        <linearGradient
+            id="cloudGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%">
+
+            <stop
+                offset="0%"
+                stop-color="#ffffff"/>
+
+            <stop
+                offset="45%"
+                stop-color="#d8d8dd"/>
+
+            <stop
+                offset="100%"
+                stop-color="#ffffff"/>
+
+        </linearGradient>
+
+
+        <!-- V gradient -->
+        <linearGradient
+            id="vGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%">
+
+            <stop
+                offset="0%"
+                stop-color="#ff465d"/>
+
+            <stop
+                offset="50%"
+                stop-color="#ff1f3d"/>
+
+            <stop
+                offset="100%"
+                stop-color="#b90025"/>
+
+        </linearGradient>
+
+    </defs>
+
+
+    <!-- ========================= -->
+    <!-- WHITE CLOUD -->
+    <!-- ========================= -->
+
+    <path
+        d="
+        M120 300
+        C70 300 45 265 45 225
+        C45 180 80 145 125 145
+
+        C145 90 195 55 250 70
+
+        C285 25 350 20 390 55
+
+        C425 40 470 55 495 90
+
+        C535 95 565 130 565 170
+
+        C565 220 530 255 485 255
+
+        L120 300
+        Z
+        "
+
+        fill="#070708"
+
+        stroke="url(#cloudGradient)"
+
+        stroke-width="14"
+
+        stroke-linejoin="round"
+
+        filter="url(#redGlow)"
+    />
+
+
+    <!-- ========================= -->
+    <!-- RED SNAKE GLOW -->
+    <!-- ========================= -->
+
+    <path
+        id="snakeGlow"
+
+        d="
+        M75 210
+        C135 145 170 270 235 205
+        C300 140 335 120 390 185
+        C445 250 480 275 535 185
+        "
+
+        fill="none"
+
+        stroke="#ff1738"
+
+        stroke-width="13"
+
+        stroke-linecap="round"
+
+        opacity="0.35"
+
+        filter="url(#redGlow)"
+    >
+
+        <!-- WAVE ANIMATION -->
+
+        <animate
+            attributeName="d"
+
+            dur="2.8s"
+
+            repeatCount="indefinite"
+
+            values="
+            M75 210 C135 145 170 270 235 205 C300 140 335 120 390 185 C445 250 480 275 535 185;
+
+            M75 220 C135 275 175 135 235 215 C300 290 335 115 390 175 C445 115 485 255 535 195;
+
+            M75 210 C135 145 170 270 235 205 C300 140 335 120 390 185 C445 250 480 275 535 185
+            "
+        />
+
+    </path>
+
+
+    <!-- ========================= -->
+    <!-- RED SNAKE MAIN LINE -->
+    <!-- ========================= -->
+
+    <path
+        id="snakeLine"
+
+        d="
+        M75 210
+        C135 145 170 270 235 205
+        C300 140 335 120 390 185
+        C445 250 480 275 535 185
+        "
+
+        fill="none"
+
+        stroke="#ff3048"
+
+        stroke-width="6"
+
+        stroke-linecap="round"
+
+        filter="url(#redGlow)"
+    >
+
+        <!-- MAIN WAVE -->
+
+        <animate
+            attributeName="d"
+
+            dur="2.8s"
+
+            repeatCount="indefinite"
+
+            values="
+            M75 210 C135 145 170 270 235 205 C300 140 335 120 390 185 C445 250 480 275 535 185;
+
+            M75 220 C135 275 175 135 235 215 C300 290 335 115 390 175 C445 115 485 255 535 195;
+
+            M75 210 C135 145 170 270 235 205 C300 140 335 120 390 185 C445 250 480 275 535 185
+            "
+        />
+
+    </path>
+
+
+    <!-- ========================= -->
+    <!-- CENTER V -->
+    <!-- ========================= -->
+
+    <path
+        d="
+        M205 160
+        L270 275
+        L330 275
+        L395 160
+        L350 160
+        L300 235
+        L250 160
+        Z
+        "
+
+        fill="url(#vGradient)"
+
+        stroke="#ff4055"
+
+        stroke-width="3"
+
+        stroke-linejoin="round"
+
+        filter="url(#redGlow)"
+    />
+
+
+    <!-- V dark inner edge -->
+
+    <path
+        d="
+        M215 165
+        L270 270
+        L300 270
+        L385 165
+        "
+
+        fill="none"
+
+        stroke="#8c001c"
+
+        stroke-width="3"
+
+        opacity="0.8"
+    />
+
+
+</svg>
