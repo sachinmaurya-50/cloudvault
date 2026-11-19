@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CloudVault - Personal Cloud Storage</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+          <style>
+    .navbar .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .navbar .cloudvault-logo {
+        width: 48px;
+        height: 42px;
+        object-fit: contain;
+        display: block;
+    }
+
+    .navbar .brand-name {
+        font-size: 22px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+<div class="logo">
+
+    <img src="{{ url_for('static', filename='images/cloudvault-logo.svg') }}"
+         alt="CloudVault Logo"
+         class="cloudvault-logo">
+
+    <span class="brand-name">
+        Cloud<span>Vault</span>
+    </span>
+
+</div>
+
+
+    <div class="nav-links">
+
+        <a href="{{ url_for('home') }}" class="active">
+            Home
+        </a>
+
+        <a href="#features">
+            Features
+        </a>
+
+        <a href="#how-it-works">
+            How It Works
+        </a>
+
+        <a href="#contact">
+            Contact
+        </a>
+
+    </div>
+
+
+    <div class="nav-actions">
+
+        <a href="{{ url_for('login') }}"
+           class="login-btn">
+            Login
+        </a>
+
+        <a href="{{ url_for('register') }}"
+           class="register-btn">
+            Register
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="hero-content">
+
+        <div class="badge">
+
+            <span>✦</span>
+
+            Secure • Simple • Smart
+
+        </div>
+
+
+        <h1>
+
+            Store Your Files.
+
+            <br>
+
+            <span>Access Them Anywhere.</span>
+
+        </h1>
+
+
+        <p class="hero-text">
+
+            CloudVault is your personal cloud storage system
+            for securely uploading, managing and accessing
+            your files from one simple platform.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+            <a href="{{ url_for('register') }}"
+               class="primary-btn">
+
+                Get Started
+
+                <span>→</span>
+
+            </a>
+
+
+            <a href="#how-it-works"
+               class="secondary-btn">
+
+                <span class="play-icon">▶</span>
+
+                How It Works
+
+            </a>
+
+        </div>
+
+
+        <!-- SMALL BENEFITS -->
+
+        <div class="benefits">
+
+            <div>
+
+                <span class="benefit-icon">🔒</span>
+
+                Secure Access
+
+            </div>
+
+
+            <div>
+
+                <span class="benefit-icon">☁</span>
+
+                Cloud Storage
+
+            </div>
+
+
+            <div>
+
+                <span class="benefit-icon">⚡</span>
+
+                Fast Management
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- RIGHT SIDE 3D CLOUD -->
+
+    <div class="cloud-scene">
+
+        <div class="glow"></div>
+
+        <div class="orbit orbit-one"></div>
+
+        <div class="orbit orbit-two"></div>
+
+
+        <div class="file-card file-pdf">
+
+            <div class="file-icon pdf">
+                PDF
+            </div>
+
+            <span>
+                Document.pdf
+            </span>
+
+        </div>
+
+
+        <div class="file-card file-image">
+
+            <div class="file-icon image">
+                IMG
+            </div>
+
+            <span>
+                Photo.png
+            </span>
+
+        </div>
+
+
+        <div class="file-card file-video">
+
+            <div class="file-icon video">
+                ▶
+            </div>
+
+            <span>
+                Video.mp4
+            </span>
+
+        </div>
+
+
+        <div class="file-card file-doc">
+
+            <div class="file-icon doc">
+                DOC
+            </div>
+
+            <span>
+                Notes.docx
+            </span>
+
+        </div>
+
+
+        <div class="floating-lock">
+            🔒
+        </div>
+
+
+        <div class="main-cloud">
+
+            <div class="cloud-symbol">
+                ☁
+            </div>
+
+            <div class="upload-arrow">
+                ↑
+            </div>
+
+        </div>
+
+
+        <div class="cloud-platform">
+
+            <div class="platform-light"></div>
+
+            <div class="platform-text">
+
+                <span>☁</span>
+
+                Cloud<span>Vault</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="upload-card">
+
+            <div class="upload-title">
+
+                <span>
+                    Uploading file...
+                </span>
+
+                <span>
+                    78%
+                </span>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div class="progress-bar"></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="stored-card">
+
+            <div class="check">
+                ✓
+            </div>
+
+            <div>
+
+                <strong>
+                    File Stored
+                </strong>
+
+                <small>
+                    Successfully saved
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= FEATURE STRIP ================= -->
+
+<section class="feature-strip"
+         id="features">
+
+
+    <div class="feature-item">
+
+        <div class="feature-icon">
+            ☁
+        </div>
+
+        <div>
+
+            <h3>
+                Cloud Storage
+            </h3>
+
+            <p>
+                Store your files in AWS S3 cloud object storage.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-item">
+
+        <div class="feature-icon">
+            🔐
+        </div>
+
+        <div>
+
+            <h3>
+                Private & Secure
+            </h3>
+
+            <p>
+                Protected user authentication and access.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-item">
+
+        <div class="feature-icon">
+            📁
+        </div>
+
+        <div>
+
+            <h3>
+                Easy File Management
+            </h3>
+
+            <p>
+                Upload, download, search and delete files.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-item">
+
+        <div class="feature-icon">
+            🔄
+        </div>
+
+        <div>
+
+            <h3>
+                AWS S3 Storage
+            </h3>
+
+            <p>
+                Designed to store files securely using AWS S3.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ================= SECURITY ================= -->
+
+<section class="security-section">
+
+    <div class="security-content">
+
+
+        <div class="security-text">
+
+            <span class="section-label">
+                SECURITY FIRST
+            </span>
+
+            <h2>
+
+                Your Files.<br>
+
+                <span>Your Control.</span>
+
+            </h2>
+
+            <p>
+
+                CloudVault is designed with secure authentication
+                and protected user access to keep your personal
+                files private.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="security-cards">
+
+
+            <div class="security-card">
+
+                <div class="security-icon">
+                    🔐
+                </div>
+
+                <div>
+
+                    <h3>
+                        Password Hashing
+                    </h3>
+
+                    <p>
+                        Passwords are stored using secure hashing
+                        instead of plain text.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-card">
+
+                <div class="security-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <h3>
+                        Authentication
+                    </h3>
+
+                    <p>
+                        Only authenticated users can access
+                        their CloudVault dashboard.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-card">
+
+                <div class="security-icon">
+                    🛡️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Protected Access
+                    </h3>
+
+                    <p>
+                        Login sessions protect private user
+                        areas of the application.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="security-card">
+
+                <div class="security-icon">
+                    ☁
+                </div>
+
+                <div>
+
+                    <h3>
+                        AWS S3 Storage
+                    </h3>
+
+                    <p>
+                        Actual files are designed to be stored
+                        in AWS S3 cloud object storage.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how-it-works"
+         id="how-it-works">
+
+
+    <div class="section-title">
+
+        <span>
+            HOW CLOUDVAULT WORKS
+        </span>
+
+        <h2>
+            Your Files, Connected to the Cloud.
+        </h2>
+
+        <p>
+            A simple flow from your device to secure cloud storage.
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+
+        <div class="step">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <h3>
+                Select File
+            </h3>
+
+            <p>
+                Choose a file from your device.
+            </p>
+
+        </div>
+
+
+        <div class="step-line"></div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <h3>
+                CloudVault
+            </h3>
+
+            <p>
+                Flask backend processes the request.
+            </p>
+
+        </div>
+
+
+        <div class="step-line"></div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <h3>
+                AWS S3
+            </h3>
+
+            <p>
+                File is stored securely in AWS S3 cloud storage.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+<!-- ================= CONTACT ================= -->
+
+<section class="contact-section" id="contact">
+
+    <div class="contact-container">
+
+        <div class="contact-info">
+
+            <span class="section-label">
+                CONTACT CLOUDVAULT
+            </span>
+
+            <h2>
+                Need Help?
+                <br>
+                <span>We're Here.</span>
+            </h2>
+
+            <p>
+                Have a question about CloudVault or facing a problem?
+                Send us a message and we'll get back to you.
+            </p>
+
+            <div class="contact-details">
+
+                <div class="contact-detail">
+
+                    <div class="contact-detail-icon">
+                        @
+                    </div>
+
+                    <div>
+                        <strong>Email</strong>
+                        <span>Your registered email</span>
+                    </div>
+
+                </div>
+
+                <div class="contact-detail">
+
+                    <div class="contact-detail-icon">
+                        CV
+                    </div>
+
+                    <div>
+                        <strong>Project</strong>
+                        <span>CloudVault – Personal Cloud Storage System</span>
+                    </div>
+
+                </div>
+
+                <div class="contact-detail">
+
+                    <div class="contact-detail-icon">
+                        AWS
+                    </div>
+
+                    <div>
+                        <strong>Storage</strong>
+                        <span>Amazon AWS S3</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <h3>
+                Send us a Message
+            </h3>
+
+            <p>
+                Tell us about your question or problem.
+            </p>
+
+
+            <form action="https://formspree.io/f/mvkgwjkv"
+                  method="POST">
+
+                <div class="contact-row">
+
+                    <div class="contact-field">
+
+                        <label>Your Name</label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter your name"
+                            required>
+
+                    </div>
+
+
+                    <div class="contact-field">
+
+                        <label>Your Email</label>
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="contact-field">
+
+                    <label>Message</label>
+
+                    <textarea
+                        name="message"
+                        rows="5"
+                        placeholder="Write your message..."
+                        required></textarea>
+
+                </div>
+
+
+                <button type="submit"
+                        class="contact-submit">
+
+                    Send Message
+
+                    <span>→</span>
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer></footer>
+
+
+    <div class="footer-logo">
+
+        <img src="{{ url_for('static', filename='images/cloudvault-logo.svg') }}"
+             alt="CloudVault Logo"
+             class="cloudvault-logo footer-cloudvault-logo">
+
+    </div>
+
+
+    <p>
+        Personal Cloud Storage System
+    </p>
+
+
+    <div class="footer-line"></div>
+
+
+    <small>
+        © 2026 CloudVault. Built with Python Flask.
+    </small>
+
+
+</footer>
+
+
+</body>
+
+</html>
