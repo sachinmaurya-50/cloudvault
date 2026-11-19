@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CloudVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .file-upload-input {
+            display: none;
+        }
+
+        .file-actions form {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .file-search-input {
+            padding: 10px 14px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            background: #171717;
+            color: white;
+            width: 180px;
+        }
+
+        .file-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 18px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .file-details {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        .file-details strong {
+            overflow-wrap: anywhere;
+        }
+
+        .file-details small {
+            color: #999;
+        }
+
+        .file-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .file-buttons a,
+        .file-buttons button {
+            padding: 9px 13px;
+            border-radius: 7px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        .view-action,
+        .download-action,
+        .rename-action {
+            background: #242424;
+            color: white;
+        }
+
+        .file-buttons a:hover,
+        .file-buttons button:hover {
+            opacity: 0.8;
+        }
+
+        .delete-action {
+            background: #9f2020;
+            color: white;
+        }
+
+        .file-type {
+            color: #e34b4b;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .upload-message {
+            color: #999;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        .storage-note {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .cloud-status {
+            color: #55d68b;
+        }
+
+        .file-info {
+            color: #999;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        @media(max-width: 600px) {
+            .file-item {
+                align-items: flex-start;
+            }
+
+            .file-search-input {
+                width: 130px;
+            }
+
+            .file-buttons {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="dashboard-page">
+
+<aside class="dashboard-sidebar">
+
+    <div class="dashboard-logo">
+        <img src="{{ url_for('static', filename='images/cloudvault-logo.svg') }}"
+             alt="CloudVault Logo"
+             class="dashboard-cloudvault-logo">
+    </div>
+
+    <nav class="dashboard-nav">
+
+        <a href="{{ url_for('dashboard') }}"
+           class="dashboard-nav-item active">
+            <span>⌂</span> Dashboard
+        </a>
+
+        <a href="#my-files" class="dashboard-nav-item">
+            <span>📁</span> My Files
+        </a>
+
+        <a href="#upload-section" class="dashboard-nav-item">
+            <span>↑</span> Upload
+        </a>
+
+        <a href="#my-files" class="dashboard-nav-item">
+            <span>⌕</span> Search
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+        <a href="{{ url_for('logout') }}"
+           class="dashboard-nav-item logout-link">
+            <span>↪</span> Logout
+        </a>
+    </div>
+
+</aside>
+
+
+<main class="dashboard-main">
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+
+        <div>
+            <span class="dashboard-label">CLOUD STORAGE</span>
+            <h1>Dashboard</h1>
+        </div>
+
+        <div class="dashboard-user">
+
+            <div class="user-avatar">
+                {{ user_name[0]|upper }}
+            </div>
+
+            <div class="user-info">
+                <strong>{{ user_name }}</strong>
+                <span>Personal Account</span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- WELCOME -->
+
+    <section class="dashboard-welcome">
+
+        <div>
+            <span class="welcome-badge">✦ Welcome back</span>
+
+            <h2>Hello, {{ user_name }}</h2>
+
+            <p>
+                Manage your files and keep everything
+                connected to your cloud.
+            </p>
+        </div>
+
+        <button type="button"
+                class="dashboard-upload-btn"
+                onclick="document.getElementById('fileInput').click()">
+            ↑ Upload File
+        </button>
+
+    </section>
+
+
+    <!-- UPLOAD FORM -->
+
+    <section id="upload-section" style="margin: 25px 0;">
+
+        <form action="{{ url_for('upload_file') }}"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input type="file"
+                   name="file"
+                   id="fileInput"
+                   class="file-upload-input"
+                   required
+                   onchange="document.getElementById('uploadFormButton').click()">
+
+            <button type="submit"
+                    id="uploadFormButton"
+                    class="empty-upload-btn"
+                    style="display:none;">
+                Upload
+            </button>
+
+        </form>
+
+        <p class="upload-message">
+            Supported: PDF, images, documents, ZIP, audio and video.
+            Maximum size: 500 MB.
+        </p>
+
+        <p class="storage-note">
+            ☁ Cloud Storage: Fil One S3
+            | Maximum storage per user: 5 GB
+        </p>
+
+    </section>
+
+
+    <!-- STORAGE CARDS -->
+
+    <section class="dashboard-stats">
+
+        <div class="dashboard-stat-card">
+
+            <div class="stat-icon">📁</div>
+
+            <div>
+                <span>Total Files</span>
+                <strong>{{ total_files }}</strong>
+                <small>Files in your storage</small>
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-stat-card">
+
+            <div class="stat-icon cloud-stat">☁</div>
+
+            <div>
+                <span>Storage Used</span>
+
+                <strong>
+                    {{ (total_storage / 1048576)|round(2) }} MB
+                </strong>
+
+                <small>Out of 5 GB</small>
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-stat-card">
+
+            <div class="stat-icon secure-stat">🔐</div>
+
+            <div>
+                <span>Storage Engine</span>
+                <strong class="cloud-status">Fil One</strong>
+                <small>S3 Cloud Storage</small>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MY FILES -->
+
+    <section class="files-section" id="my-files">
+
+        <div class="files-section-header">
+
+            <div>
+                <span class="dashboard-label">YOUR STORAGE</span>
+                <h2>My Files</h2>
+            </div>
+
+            <div class="file-actions">
+
+                <form action="{{ url_for('dashboard') }}"
+                      method="GET">
+
+                    <input type="search"
+                           name="q"
+                           class="file-search-input"
+                           placeholder="Search files..."
+                           value="{{ search_query }}">
+
+                    <button type="submit" class="search-btn">
+                        Search
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        {% if files %}
+
+            <div class="file-list">
+
+                {% for file in files %}
+
+                    {% set ext = file.original_name.rsplit('.', 1)[-1].lower() %}
+
+                    <div class="file-item">
+
+                        <div class="file-details">
+
+                            <strong>{{ file.original_name }}</strong>
+
+                            <span class="file-type">
+                                {{ ext }}
+                            </span>
+
+                            <small>
+                                {{ (file.file_size / 1024)|round(2) }} KB
+                                &nbsp; | &nbsp;
+                                {{ file.uploaded_at.strftime('%d %b %Y') }}
+                            </small>
+
+                            <span class="file-info">
+                                {% if file.stored_name.startswith('cloud/') %}
+                                    ☁ Stored in Fil One
+                                {% else %}
+                                    Local legacy file
+                                {% endif %}
+                            </span>
+
+                        </div>
+
+
+                        <!-- FILE ACTION BUTTONS -->
+
+                        <div class="file-buttons">
+
+                            {% if ext in ['pdf', 'png', 'jpg', 'jpeg', 'gif', 'webp'] %}
+
+                                <a href="{{ url_for('view_file', file_id=file.id) }}"
+                                   target="_blank"
+                                   rel="noopener"
+                                   class="view-action">
+                                    👁 View
+                                </a>
+
+                            {% endif %}
+
+
+                            <button type="button"
+                                    class="rename-action"
+                                    onclick='renameFile({{ file.id }}, {{ file.original_name|tojson }})'>
+                                ✏ Rename
+                            </button>
+
+
+                            <a href="{{ url_for('download_file', file_id=file.id) }}"
+                               class="download-action">
+                                ↓ Download
+                            </a>
+
+
+                            <form action="{{ url_for('delete_file', file_id=file.id) }}"
+                                  method="POST"
+                                  onsubmit="return confirm('Are you sure you want to delete this file?');">
+
+                                <button type="submit"
+                                        class="delete-action">
+                                    🗑 Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-files">
+
+                <div class="empty-cloud">
+
+                    <img src="{{ url_for('static', filename='images/cloudvault-logo.svg') }}"
+                         alt="CloudVault Logo"
+                         class="dashboard-empty-logo">
+
+                </div>
+
+                <h3>
+                    {% if search_query %}
+                        No matching files found
+                    {% else %}
+                        Your cloud is empty
+                    {% endif %}
+                </h3>
+
+                <p>
+                    {% if search_query %}
+                        Try another file name.
+                    {% else %}
+                        Upload your first file to start building
+                        your personal cloud storage.
+                    {% endif %}
+                </p>
+
+                {% if not search_query %}
+
+                    <button type="button"
+                            class="empty-upload-btn"
+                            onclick="document.getElementById('fileInput').click()">
+                        ↑ Upload Your First File
+                    </button>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <!-- QUICK INFO -->
+
+    <section class="dashboard-info">
+
+        <div class="info-card">
+
+            <div class="info-icon">🔐</div>
+
+            <div>
+                <h3>Secure Storage</h3>
+
+                <p>
+                    Your files are separated by user account
+                    in the application.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="info-card">
+
+            <div class="info-icon">⚡</div>
+
+            <div>
+                <h3>Easy File Management</h3>
+
+                <p>
+                    Upload, preview, rename, download and delete
+                    files from one dashboard.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer class="dashboard-footer">
+
+        <div>
+            <img src="{{ url_for('static', filename='images/cloudvault-logo.svg') }}"
+                 alt="CloudVault Logo"
+                 class="dashboard-footer-logo">
+        </div>
+
+        <p>CloudVault - Personal Cloud Storage System</p>
+
+    </footer>
+
+</main>
+
+
+<!-- RENAME JAVASCRIPT -->
+
+<script>
+function renameFile(fileId, oldName) {
+
+    const newName = prompt(
+        "Enter new file name (keep the same extension):",
+        oldName
+    );
+
+    if (newName === null || newName.trim() === "") {
+        return;
+    }
+
+    const form = document.createElement("form");
+
+    form.method = "POST";
+    form.action = "/rename/" + fileId;
+
+    const input = document.createElement("input");
+
+    input.type = "hidden";
+    input.name = "new_name";
+    input.value = newName.trim();
+
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+
+    form.submit();
+}
+</script>
+
+</body>
+</html>
