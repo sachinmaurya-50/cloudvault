@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CloudVault</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #050505;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .cv-navbar {
+            height: 78px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #080808;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .cv-logo-image {
+            width: 145px;
+            height: 68px;
+            object-fit: contain;
+        }
+
+        .cv-nav {
+            display: flex;
+            gap: 32px;
+        }
+
+        .cv-nav a {
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .cv-nav a:hover,
+        .cv-nav a.active {
+            color: #ff3048;
+        }
+
+        .login-page {
+            min-height: calc(100vh - 78px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            background:
+                radial-gradient(circle, rgba(255,30,55,.15), transparent 45%),
+                linear-gradient(135deg, #030303, #160306);
+            perspective: 1400px;
+            overflow: hidden;
+        }
+
+        .login-scene {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+        }
+
+        .login-card {
+            padding: 42px 38px 34px;
+            border-radius: 26px;
+            background: linear-gradient(145deg, #1f1f24, #0a0a0d);
+            border: 1px solid rgba(255,255,255,.11);
+            box-shadow:
+                0 45px 100px rgba(0,0,0,.72),
+                0 0 70px rgba(255,30,50,.10);
+            transition: transform .18s ease-out;
+        }
+
+        .login-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 20px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #ff3650, #b90028);
+            box-shadow: 0 15px 35px rgba(255,30,55,.30);
+        }
+
+        .icon-mark {
+            width: 30px;
+            height: 24px;
+            position: relative;
+        }
+
+        .icon-mark::before {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 16px;
+            bottom: 0;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .icon-mark::after {
+            content: "";
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 7px;
+            top: 0;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .login-card h1 {
+            margin: 0;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        .login-subtitle {
+            margin: 9px 0 30px;
+            text-align: center;
+            color: #85858e;
+            font-size: 13px;
+        }
+
+        .field {
+            margin-bottom: 19px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #c7c7ce;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input {
+            width: 100%;
+            height: 52px;
+            padding: 0 15px;
+            border: 1px solid rgba(255,255,255,.09);
+            border-radius: 12px;
+            outline: none;
+            background: rgba(255,255,255,.045);
+            color: white;
+            font-size: 14px;
+        }
+
+        .input:focus {
+            border-color: #ff3048;
+            box-shadow: 0 0 0 3px rgba(255,48,72,.08);
+        }
+
+        .input::placeholder {
+            color: #5f5f68;
+        }
+
+        .show-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 0;
+            background: transparent;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 53px;
+            margin-top: 5px;
+            border: 0;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #ff3650, #d3002e);
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(255,30,55,.22);
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .register-text {
+            margin-top: 22px;
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+        }
+
+        .register-text a {
+            color: #ff5064;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .secure-label {
+            margin-top: 25px;
+            text-align: center;
+            color: #505058;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .flash-message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background: rgba(255,48,72,.12);
+            color: #ff7182;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .cv-navbar {
+                padding: 0 20px;
+            }
+
+            .cv-logo-image {
+                width: 120px;
+            }
+
+            .cv-nav {
+                gap: 14px;
+            }
+
+            .cv-nav a {
+                font-size: 12px;
+            }
+
+            .login-card {
+                padding: 35px 24px 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="cv-navbar">
+
+        <a href="{{ url_for('home') }}">
+            <img
+                src="{{ url_for('static', filename='images/cloudvault-logo.svg') }}"
+                class="cv-logo-image"
+                alt="CloudVault Logo">
+        </a>
+
+        <div class="cv-nav">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('login') }}" class="active">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        </div>
+
+    </nav>
+
+    <main class="login-page">
+
+        <div class="login-scene" id="loginScene">
+
+            <div class="login-card" id="loginCard">
+
+                <div class="login-icon">
+                    <div class="icon-mark"></div>
+                </div>
+
+                <h1>Welcome Back</h1>
+
+                <p class="login-subtitle">
+                    Sign in to your CloudVault account
+                </p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% for category, message in messages %}
+                        <div class="flash-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endwith %}
+
+                <form
+                    method="POST"
+                    action="{{ url_for('login') }}"
+                    id="loginForm">
+
+                    <div class="field">
+                        <label for="email">Email Address</label>
+
+                        <input
+                            class="input"
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required>
+                    </div>
+
+                    <div class="field">
+
+                        <label for="password">Password</label>
+
+                        <div class="input-wrap">
+
+                            <input
+                                class="input"
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="show-btn"
+                                id="showPassword">
+                                Show
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="login-button">
+                        Login to CloudVault
+                    </button>
+
+                </form>
+
+                <div class="register-text">
+                    Don't have an account?
+                    <a href="{{ url_for('register') }}">
+                        Create Account
+                    </a>
+                </div>
+
+                <div class="secure-label">
+                    Secure Cloud Access
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const password = document.getElementById("password");
+        const showPassword = document.getElementById("showPassword");
+
+        showPassword.addEventListener("click", function () {
+            if (password.type === "password") {
+                password.type = "text";
+                showPassword.textContent = "Hide";
+            } else {
+                password.type = "password";
+                showPassword.textContent = "Show";
+            }
+        });
+
+        const scene = document.getElementById("loginScene");
+        const card = document.getElementById("loginCard");
+
+        scene.addEventListener("mousemove", function (event) {
+            const rect = scene.getBoundingClientRect();
+
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateY = ((x - centerX) / centerX) * 5;
+            const rotateX = ((centerY - y) / centerY) * 5;
+
+            card.style.transform =
+                `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+
+        scene.addEventListener("mouseleave", function () {
+            card.style.transform = "rotateX(0deg) rotateY(0deg)";
+        });
+    </script>
+
+</body>
+</html>
